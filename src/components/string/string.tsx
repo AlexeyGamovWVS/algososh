@@ -72,6 +72,7 @@ export const StringComponent: React.FC = () => {
           isLimitText={true}
           onChange={handleChange}
           value={values.stringInput}
+          disabled={isLoading}
         />
         <Button
           type="submit"
