@@ -77,7 +77,7 @@ export const SortingPage: React.FC = () => {
     setLoading(true);
     for (let i = arr.length - 1; i > 0; i--) {
       for (let j = 0; j < i; j++) {
-        arr[i].color = ElementStates.Changing;
+        arr[j + 1].color = ElementStates.Changing;
         arr[j].color = ElementStates.Changing;
         setArr([...arr]);
         await delay(SHORT_DELAY_IN_MS);
@@ -102,6 +102,8 @@ export const SortingPage: React.FC = () => {
       arr[i].color = ElementStates.Modified;
       setArr([...arr]);
     }
+    await delay(SHORT_DELAY_IN_MS);
+    arr[0].color = ElementStates.Modified;
     setLoading(false);
     setDirection(undefined);
   };
