@@ -1,0 +1,34 @@
+.sortingMenu {
+  display: flex;
+  flex-direction: row;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  column-gap: 52px;
+}
+.radios {
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+}
+.sortbuttons {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+}
+.newArrButton {
+  margin-left: auto;
+}
+
+.diagram {
+  list-style: none;
+  margin: 48px auto 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: flex-end;
+  justify-content: center;
+  max-width: 980px;
+}

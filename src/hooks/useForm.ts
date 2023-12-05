@@ -3,7 +3,8 @@ import { useState } from "react";
 
 interface IInputValues {
   stringInput?: string;
-	fiboInput?: number;
+  fiboInput?: number;
+  // radioSortInput?: "bubble" | "select";
 }
 
 export function useForm(inputValues: IInputValues) {
