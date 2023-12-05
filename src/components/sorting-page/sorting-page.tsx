@@ -8,7 +8,7 @@ import { TColumnItem } from "../../types/allTypes";
 import { Column } from "../ui/column/column";
 import { delay, getRandomArr, swap } from "../../utils/utils";
 import { ElementStates } from "../../types/element-states";
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
   const [sortType, setSortType] = useState("select");
@@ -23,7 +23,8 @@ export const SortingPage: React.FC = () => {
   const hadleChangeDirection = (dir: Direction) => {
     setDirection(dir);
     arr.forEach((item) => (item.color = ElementStates.Default));
-    selectSort(arr, dir);
+    // selectSort(arr, dir);
+    bubbleSort(arr, dir);
   };
 
   const handleNewArr = (e: React.MouseEvent) => {
@@ -74,6 +75,35 @@ export const SortingPage: React.FC = () => {
 
   const bubbleSort = async (arr: TColumnItem[], dir: Direction) => {
     setLoading(true);
+    for (let i = arr.length - 1; i > 0; i--) {
+      for (let j = 0; j < i; j++) {
+        arr[i].color = ElementStates.Changing;
+        arr[j].color = ElementStates.Changing;
+        setArr([...arr]);
+        await delay(SHORT_DELAY_IN_MS);
+        switch (dir) {
+          case Direction.Ascending:
+            if (arr[j].value > arr[j + 1].value) {
+              swap(arr, j, j + 1);
+            }
+            break;
+          case Direction.Descending:
+            if (arr[j].value < arr[j + 1].value) {
+              swap(arr, j, j + 1);
+            }
+            break;
+          default:
+            break;
+        }
+        arr[j].color = ElementStates.Default;
+        arr[i].color = ElementStates.Default;
+        setArr([...arr]);
+      }
+      arr[i].color = ElementStates.Modified;
+      setArr([...arr]);
+    }
+    setLoading(false);
+    setDirection(undefined);
   };
 
   return (
