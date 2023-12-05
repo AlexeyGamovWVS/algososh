@@ -16,15 +16,28 @@ export const SortingPage: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [arr, setArr] = useState<TColumnItem[]>([]);
 
+  const resetStyles = (arr: TColumnItem[]) => {
+    arr.forEach((item) => (item.color = ElementStates.Default));
+  };
+
   const handleChangeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
+    resetStyles(arr);
     setSortType(e.target.value);
   };
 
   const hadleChangeDirection = (dir: Direction) => {
     setDirection(dir);
-    arr.forEach((item) => (item.color = ElementStates.Default));
-    // selectSort(arr, dir);
-    bubbleSort(arr, dir);
+    resetStyles(arr);
+    switch (sortType) {
+      case "select":
+        selectSort(arr, dir);
+        break;
+      case "bubble":
+        bubbleSort(arr, dir);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleNewArr = (e: React.MouseEvent) => {
