@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import styles from './string.module.css';
+import React, { useState } from "react";
+import styles from "./string.module.css";
 
-import { SolutionLayout } from '../ui/solution-layout/solution-layout';
-import { Input } from '../ui/input/input';
-import { Button } from '../ui/button/button';
-import { Circle } from '../ui/circle/circle';
-import { useForm } from '../../hooks/useForm';
-import { ElementStates } from '../../types/element-states';
-import { DELAY_IN_MS } from '../../constants/delays';
-import { delay, swap } from '../../utils/utils';
-import { TCircle } from '../../types/allTypes';
+import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import { Input } from "../ui/input/input";
+import { Button } from "../ui/button/button";
+import { Circle } from "../ui/circle/circle";
+import { useForm } from "../../hooks/useForm";
+import { ElementStates } from "../../types/element-states";
+import { DELAY_IN_MS } from "../../constants/delays";
+import { delay, swap } from "../../utils/utils";
+import { TCircle } from "../../types/allTypes";
 
 const getStringArr = (string: string) => {
-  return string.split('').map((letter) => {
+  return string.split("").map((letter) => {
     return {
       value: letter,
       color: ElementStates.Default,
@@ -21,9 +21,9 @@ const getStringArr = (string: string) => {
 };
 
 export const StringComponent: React.FC = () => {
-  const { values, handleChange } = useForm({ stringInput: '' });
-  const [stringArr, setStringArr] = useState<TCircle[]>([]);
+  const { values, handleChange } = useForm({ stringInput: "" });
   const [isLoading, setLoading] = useState(false);
+  const [stringArr, setStringArr] = useState<TCircle[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 interface IInputValues {
   stringInput?: string;
+	fiboInput?: number;
 }
 
 export function useForm(inputValues: IInputValues) {
