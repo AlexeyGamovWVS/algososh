@@ -6,32 +6,82 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { TCircle } from "../../types/allTypes";
+import { ElementStates } from "../../types/element-states";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../../utils/utils";
+
+interface IStack<T> {
+  push: (item: T) => void;
+  pop: () => void;
+  peak: () => T | null;
+  clear: () => void;
+  isEmpty: () => boolean;
+  size: () => number;
+  elements: () => T[];
+}
+
+export class Stack<T> implements IStack<T> {
+  private container: T[] = [];
+
+  push = (item: T): void => {
+    this.container.push(item);
+  };
+
+  pop = (): void => {
+    this.container.pop();
+  };
+
+  peak = (): T | null => (this.size() > 0 ? this.container[this.size() - 1] : null);
+
+  clear = () => {
+    this.container = [];
+  };
+
+  size = () => this.container.length;
+  elements = () => this.container;
+  isEmpty = () => (this.size() > 0 ? false : true);
+}
 
 export const StackPage: React.FC = () => {
-  const { values, handleChange } = useForm({ stringInput: "" });
+  const { values, handleChange, setValues } = useForm({ stringInput: "" });
   const [isLoading, setLoading] = useState(false);
-	const [arr, setArr] = useState<TCircle[]>([]);
+  const [arr, setArr] = useState<TCircle[]>([]);
+  const stack = new Stack<TCircle>();
 
-  const handleAddItem = (e: React.SyntheticEvent) => {
+  const handleAddItem = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
-    // addItemToStack();
+    stack.push({
+      value: values.stringInput!,
+      color: ElementStates.Changing,
+    });
+    setArr([...stack.elements()]);
+    setValues({ stringInput: "" });
+    await delay(SHORT_DELAY_IN_MS);
+    stack.peak()!.color = ElementStates.Default;
     setLoading(false);
   };
 
-  const handleRemoveItem = (e: React.SyntheticEvent) => {
+  const handleRemoveItem = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
-    // removeItemFromStack();
+    if (stack.size() > 0) {
+      stack.peak()!.color = ElementStates.Changing;
+      await delay(SHORT_DELAY_IN_MS);
+      stack.pop();
+      setArr([...stack.elements()]);
+    }
     setLoading(false);
   };
 
   const handleClearStack = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
-    // clearStack();
+    stack.clear();
+    setArr([...stack.elements()]);
     setLoading(false);
   };
+
   return (
     <SolutionLayout title="Стек">
       <div className={styles.stackMenu}>
@@ -72,11 +122,7 @@ export const StackPage: React.FC = () => {
         {arr?.map((item, index) => {
           return (
             <li key={index}>
-              <Circle
-                letter={item.value}
-                index={index}
-                state={item.color}
-              />
+              <Circle letter={item.value} index={index} state={item.color} head={index === stack.size() - 1 ? "top" : ''}/>
             </li>
           );
         })}
