@@ -5,48 +5,11 @@ import { useForm } from '../../hooks/useForm';
 import { Input } from '../ui/input/input';
 import { Button } from '../ui/button/button';
 import { Circle } from '../ui/circle/circle';
-import { TCircle } from '../../types/allTypes';
+import { TCircle, btnNames } from '../../types/allTypes';
 import { ElementStates } from '../../types/element-states';
 import { SHORT_DELAY_IN_MS } from '../../constants/delays';
 import { delay } from '../../utils/utils';
-
-interface IStack<T> {
-  push: (item: T) => void;
-  pop: () => void;
-  peak: () => T | null;
-  clear: () => void;
-  isEmpty: () => boolean;
-  size: () => number;
-  elements: () => T[];
-}
-
-export class Stack<T> implements IStack<T> {
-  private container: T[] = [];
-
-  push = (item: T): void => {
-    this.container.push(item);
-  };
-
-  pop = (): void => {
-    this.container.pop();
-  };
-
-  peak = (): T | null => (this.size() > 0 ? this.container[this.size() - 1] : null);
-
-  clear = () => {
-    this.container = [];
-  };
-
-  size = () => this.container.length;
-  elements = () => this.container;
-  isEmpty = () => (this.size() > 0 ? false : true);
-}
-
-enum btnNames  {
-  add = 'add',
-  remove = 'rmv',
-  clear = 'clr'
-};
+import { Stack } from './stack';
 
 export const StackPage: React.FC = () => {
   const { values, handleChange, setValues } = useForm({ stringInput: '' });

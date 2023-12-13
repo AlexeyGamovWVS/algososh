@@ -10,3 +10,9 @@ export type TColumnItem = {
   value: number;
   color: ElementStates;
 };
+
+export enum btnNames {
+  add = 'add',
+  remove = 'rmv',
+  clear = 'clr',
+}
