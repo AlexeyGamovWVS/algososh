@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import styles from "./stack.module.css";
-import { useForm } from "../../hooks/useForm";
-import { Input } from "../ui/input/input";
-import { Button } from "../ui/button/button";
-import { Circle } from "../ui/circle/circle";
-import { TCircle } from "../../types/allTypes";
-import { ElementStates } from "../../types/element-states";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { delay } from "../../utils/utils";
+import React, { useState } from 'react';
+import { SolutionLayout } from '../ui/solution-layout/solution-layout';
+import styles from './stack.module.css';
+import { useForm } from '../../hooks/useForm';
+import { Input } from '../ui/input/input';
+import { Button } from '../ui/button/button';
+import { Circle } from '../ui/circle/circle';
+import { TCircle } from '../../types/allTypes';
+import { ElementStates } from '../../types/element-states';
+import { SHORT_DELAY_IN_MS } from '../../constants/delays';
+import { delay } from '../../utils/utils';
 
 interface IStack<T> {
   push: (item: T) => void;
@@ -42,28 +42,38 @@ export class Stack<T> implements IStack<T> {
   isEmpty = () => (this.size() > 0 ? false : true);
 }
 
+enum btnNames  {
+  add = 'add',
+  remove = 'rmv',
+  clear = 'clr'
+};
+
 export const StackPage: React.FC = () => {
-  const { values, handleChange, setValues } = useForm({ stringInput: "" });
+  const { values, handleChange, setValues } = useForm({ stringInput: '' });
   const [isLoading, setLoading] = useState(false);
   const [arr, setArr] = useState<TCircle[]>([]);
-  const stack = new Stack<TCircle>();
+  const [stack] = useState(new Stack<TCircle>());
+  const [activeBtn, setActiveBtn] = useState<btnNames | null>(null);
 
   const handleAddItem = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setActiveBtn(btnNames.add);
     setLoading(true);
     stack.push({
       value: values.stringInput!,
       color: ElementStates.Changing,
     });
     setArr([...stack.elements()]);
-    setValues({ stringInput: "" });
+    setValues({ stringInput: '' });
     await delay(SHORT_DELAY_IN_MS);
     stack.peak()!.color = ElementStates.Default;
     setLoading(false);
+    setActiveBtn(null);
   };
 
   const handleRemoveItem = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setActiveBtn(btnNames.remove);
     setLoading(true);
     if (stack.size() > 0) {
       stack.peak()!.color = ElementStates.Changing;
@@ -72,14 +82,17 @@ export const StackPage: React.FC = () => {
       setArr([...stack.elements()]);
     }
     setLoading(false);
+    setActiveBtn(null);
   };
 
   const handleClearStack = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setActiveBtn(btnNames.clear);
     setLoading(true);
     stack.clear();
     setArr([...stack.elements()]);
     setLoading(false);
+    setActiveBtn(null);
   };
 
   return (
@@ -99,22 +112,22 @@ export const StackPage: React.FC = () => {
           text="Добавить"
           type="button"
           onClick={handleAddItem}
-          disabled={isLoading || values.stringInput === ""}
-          isLoader={isLoading}
+          disabled={isLoading || values.stringInput === ''}
+          isLoader={isLoading && activeBtn === btnNames.add}
         />
         <Button
           text="Удалить"
           type="button"
           onClick={handleRemoveItem}
-          disabled={isLoading || values.stringInput === ""}
-          isLoader={isLoading}
+          disabled={isLoading || stack.isEmpty()}
+          isLoader={isLoading && activeBtn === btnNames.remove}
         />
         <Button
           text="Сбросить"
           type="button"
           onClick={handleClearStack}
-          disabled={isLoading || values.stringInput === ""}
-          isLoader={isLoading}
+          disabled={isLoading || stack.isEmpty()}
+          isLoader={isLoading && activeBtn === btnNames.clear}
           extraClass={styles.clearBtn}
         />
       </div>
@@ -122,7 +135,12 @@ export const StackPage: React.FC = () => {
         {arr?.map((item, index) => {
           return (
             <li key={index}>
-              <Circle letter={item.value} index={index} state={item.color} head={index === stack.size() - 1 ? "top" : ''}/>
+              <Circle
+                letter={item.value}
+                index={index}
+                state={item.color}
+                head={index === stack.size() - 1 ? 'top' : ''}
+              />
             </li>
           );
         })}
