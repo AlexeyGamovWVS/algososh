@@ -15,4 +15,10 @@ export enum btnNames {
   add = 'add',
   remove = 'rmv',
   clear = 'clr',
+	addInHead = "addInHead",
+	addInTail = "addInTail",
+	removeHead = "rmHead",
+	removeTail = "rmTail",
+	addByIdx = "addByIdx",
+	removeByIdx = "removeByIdx"
 }

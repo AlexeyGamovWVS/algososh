@@ -4,6 +4,7 @@ import { useState } from "react";
 interface IInputValues {
   stringInput?: string;
   fiboInput?: number;
+	inInput?: number | undefined;
   // radioSortInput?: "bubble" | "select";
 }
 
