@@ -1,4 +1,4 @@
-import { TColumnItem } from "../types/allTypes";
+import { TCircle, TColumnItem } from "../types/allTypes";
 import { ElementStates } from "../types/element-states";
 
 export const delay = (milliseconds: number) => {
@@ -13,7 +13,7 @@ export const swap = (arr: any[], firstIndex: number, secondIndex: number) => {
 };
 
 export const getRandomArr = (minLen: number = 3, maxLen: number = 17, maxValue: number = 100) => {
-  const arr: TColumnItem[] = [];
+  const arr: any[] = [];
   const length = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
   for (let i = 0; i < length; i++) {
     arr.push({ value: Math.floor(Math.random() * maxValue), color: ElementStates.Default });
