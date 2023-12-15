@@ -1,4 +1,3 @@
-import { TCircle, TColumnItem } from "../types/allTypes";
 import { ElementStates } from "../types/element-states";
 
 export const delay = (milliseconds: number) => {

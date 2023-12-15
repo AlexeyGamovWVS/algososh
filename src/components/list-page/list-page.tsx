@@ -7,87 +7,116 @@ import styles from "./list.module.css";
 import { TCircle, btnNames } from "../../types/allTypes";
 import { Circle } from "../ui/circle/circle";
 import shevron from "../../images/icons/shevron-r.svg";
-import { delay, getRandomArr } from "../../utils/utils";
+import { delay } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
+import { LinkedList } from "./list";
+import { ElementStates } from "../../types/element-states";
 
 export const ListPage: React.FC = () => {
-  const { values, handleChange, setValues } = useForm({ stringInput: "", inInput: undefined });
+  const { values, handleChange, setValues } = useForm({ stringInput: "", inInput: "" });
   const [isLoading, setLoading] = useState(false);
   const [arr, setArr] = useState<TCircle[]>([]);
   const [activeBtn, setActiveBtn] = useState<btnNames | null>(null);
+  const [list] = useState(new LinkedList<TCircle>());
 
   useEffect(() => {
-    setArr(getRandomArr(3, 5));
+    list.setRandList();
+    setArr([...list.elements()]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAddHead = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setActiveBtn(btnNames.addInHead);
     setLoading(true);
-		// add
-    setValues({ stringInput: '' });
+
+    list.prepend({ value: values.stringInput!, color: ElementStates.Default });
+
+    setValues({ stringInput: "" });
     await delay(DELAY_IN_MS);
     // color
+    setArr([...list.elements()]);
+
     setLoading(false);
     setActiveBtn(null);
   };
 
-	const handleAddTail = async (e: React.SyntheticEvent) => {
+  const handleAddTail = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setActiveBtn(btnNames.addInTail);
     setLoading(true);
-		// add
-    setValues({ stringInput: '' });
+
+    list.append({ value: values.stringInput!, color: ElementStates.Default });
+
+    setValues({ stringInput: "" });
     await delay(DELAY_IN_MS);
     // color
+    setArr([...list.elements()]);
+
     setLoading(false);
     setActiveBtn(null);
   };
 
-	const handleRemoveHead = async (e: React.SyntheticEvent) => {
+  const handleRemoveHead = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setActiveBtn(btnNames.removeHead);
     setLoading(true);
-		// remove
-    setValues({ stringInput: '' });
+
+    list.deleteHead();
+
+    setValues({ stringInput: "" });
     await delay(DELAY_IN_MS);
     // color
+    setArr([...list.elements()]);
     setLoading(false);
+
     setActiveBtn(null);
   };
 
-	const handleRemoveTail = async (e: React.SyntheticEvent) => {
+  const handleRemoveTail = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setActiveBtn(btnNames.removeTail);
     setLoading(true);
-		// remove
-    setValues({ stringInput: '' });
+
+    list.deleteTail();
+
+    setValues({ stringInput: "" });
     await delay(DELAY_IN_MS);
     // color
+    setArr([...list.elements()]);
+
     setLoading(false);
     setActiveBtn(null);
   };
 
-	const handleAddInd = async (e: React.SyntheticEvent) => {
+  const handleAddInd = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setActiveBtn(btnNames.addByIdx);
     setLoading(true);
-		// add
-    setValues({ stringInput: '', inInput: undefined });
+
+    list.addByIndex({ value: values.stringInput!, color: ElementStates.Modified }, Number(values.inInput!));
+
+    setValues({ stringInput: "", inInput: "" });
     await delay(DELAY_IN_MS);
     // color
+    setArr([...list.elements()]);
+
     setLoading(false);
     setActiveBtn(null);
   };
 
-	const handleRemoveInd = async (e: React.SyntheticEvent) => {
+  const handleRemoveInd = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setActiveBtn(btnNames.addByIdx);
+    setActiveBtn(btnNames.removeByIdx);
     setLoading(true);
-		// remove
-    setValues({ stringInput: '', inInput: undefined });
+    // remove
+    list.deleteByIndex(Number(values.inInput!));
+
+    setValues({ stringInput: "", inInput: "" });
     await delay(DELAY_IN_MS);
     // color
+    setArr([...list.elements()]);
+
     setLoading(false);
     setActiveBtn(null);
   };
@@ -127,7 +156,7 @@ export const ListPage: React.FC = () => {
             text="Удалить из Head"
             type="button"
             onClick={handleRemoveHead}
-            disabled={isLoading} // или хэд пуст
+            disabled={isLoading || !list.head} 
             isLoader={isLoading && activeBtn === btnNames.removeHead}
             extraClass={styles.btn_size_s}
           />
@@ -135,7 +164,7 @@ export const ListPage: React.FC = () => {
             text="Удалить из Tail"
             type="button"
             onClick={handleRemoveTail}
-            disabled={isLoading} // или тейл пуст
+            disabled={isLoading || !list.head}
             isLoader={isLoading && activeBtn === btnNames.removeTail}
             extraClass={styles.btn_size_s}
           />
@@ -144,18 +173,18 @@ export const ListPage: React.FC = () => {
           <Input
             name="inInput"
             placeholder="Введите индекс"
-            type="number"
+            type="text"
             isLimitText={false}
             onChange={handleChange}
             value={values.inInput}
-            disabled={isLoading} //или нет возможности так как список пуст
+            disabled={isLoading || !list.head}
             extraClass={styles.input}
           />
           <Button
             text="Добавить по индексу"
             type="button"
             onClick={handleAddInd}
-            disabled={isLoading || values.inInput === undefined || !values.stringInput}
+            disabled={isLoading || !values.inInput || !values.stringInput}
             isLoader={isLoading && activeBtn === btnNames.addByIdx}
             extraClass={styles.btn_size_m}
           />
@@ -163,7 +192,7 @@ export const ListPage: React.FC = () => {
             text="удалить по индексу"
             type="button"
             onClick={handleRemoveInd}
-            disabled={isLoading || values.inInput === undefined} // или пустой список или нет такого индекса
+            disabled={isLoading || !values.inInput || !list.head}
             isLoader={isLoading && activeBtn === btnNames.removeByIdx}
             extraClass={styles.btn_size_m}
           />
@@ -172,8 +201,8 @@ export const ListPage: React.FC = () => {
       <ul className={styles.list}>
         {arr?.map((item, index) => {
           return (
-            <>
-              <li key={index}>
+            <React.Fragment key={index}>
+              <li>
                 <Circle
                   letter={item.value}
                   index={index}
@@ -184,7 +213,7 @@ export const ListPage: React.FC = () => {
               {index !== arr.length - 1 && (
                 <img className={styles.shevron} src={shevron} alt="Стрелка вправо" />
               )}
-            </>
+            </React.Fragment>
           );
         })}
       </ul>
