@@ -16,6 +16,9 @@ interface ILinkedList<T> {
   deleteByIndex: (index: number) => void;
   deleteHead: () => void;
   deleteTail: () => void;
+  setRandList: (minCountElements: number, maxCountElements: number, maxVal: number) => void;
+  elements: () => T[];
+  getSize: () => number;
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
@@ -66,7 +69,7 @@ export class LinkedList<T> implements ILinkedList<T> {
           break;
         case this.size - 1:
           this.append(element);
-					break;
+          break;
         default:
           const node = new LinkedListNode(element);
           let curr = this.head;
@@ -79,9 +82,9 @@ export class LinkedList<T> implements ILinkedList<T> {
             node.next = curr.next;
             curr.next = node;
           }
+          this.size++;
           break;
       }
-      this.size++;
     }
   }
 
@@ -106,9 +109,9 @@ export class LinkedList<T> implements ILinkedList<T> {
             currIndex++;
           }
           prev!.next = curr!.next;
+          this.size--;
           break;
       }
-      this.size--;
     }
   }
 
@@ -145,6 +148,8 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
     return arr;
   }
+
+  getSize = () => this.size;
 }
 
 // const list = new LinkedList<number>();
