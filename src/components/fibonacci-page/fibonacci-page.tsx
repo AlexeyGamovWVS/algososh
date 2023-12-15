@@ -52,7 +52,7 @@ export const FibonacciPage: React.FC = () => {
           disabled={isLoading}
           isLimitText={true}
         />
-        <Button type="submit" text="Рассчитать" disabled={!values.fiboInput} isLoader={isLoading} />
+        <Button type="submit" text="Рассчитать" disabled={!values.fiboInput || values.fiboInput > 19} isLoader={isLoading} />
       </form>
       <ul className={styles.circles}>
         {numbers?.map((simbol, index) => {

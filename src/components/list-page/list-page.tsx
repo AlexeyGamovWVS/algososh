@@ -277,20 +277,20 @@ export const ListPage: React.FC = () => {
             extraClass={styles.input}
           />
           <Button
-            text="Добавить по индексу"
+            text= {Number(values.inInput) > arr.length - 1 ? "Индекс неверный" : "Добавить по индексу"}
             type="button"
             onClick={handleAddInd}
             disabled={
               isLoading ||
               !values.inInput ||
               !values.stringInput ||
-              Number(values.inInput) > arr.length - 1
+              Number(values.inInput) > list.getSize() 
             }
             isLoader={isLoading && activeBtn === btnNames.addByIdx}
             extraClass={styles.btn_size_m}
           />
           <Button
-            text="удалить по индексу"
+            text= {Number(values.inInput) > arr.length - 1 ? "Индекс неверный" : "Удалить по индексу"}
             type="button"
             onClick={handleRemoveInd}
             disabled={
