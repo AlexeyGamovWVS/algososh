@@ -1,0 +1,27 @@
+.queueMenu {
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+  width: 100%;
+  max-width: 829px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.clearBtn {
+  margin-left: 80px;
+}
+
+.queueList {
+  display: flex;
+  flex-direction: row;
+  margin-top: 48px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  justify-content: center;
+  max-width: 100%;
+  flex-wrap: wrap;
+  row-gap: 24px;
+  column-gap: 16px;
+  list-style: none;
+}
