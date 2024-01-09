@@ -1,0 +1,42 @@
+.listMenu {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  width: 100%;
+  max-width: 952px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.listMenu__row {
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+}
+
+.btn_size_s {
+	width: 175px;
+}
+
+.btn_size_m {
+	width: 362px;
+}
+
+.input {
+  width: 204px;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  justify-content: center;
+  max-width: 100%;
+  flex-wrap: wrap;
+  row-gap: 24px;
+  column-gap: 16px;
+  list-style: none;
+}
