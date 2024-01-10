@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { Button } from "../ui/button/button";
-import { RadioInput } from "../ui/radio-input/radio-input";
-import styles from "./sorting.module.css";
-import { Direction } from "../../types/direction";
-import { TColumnItem } from "../../types/allTypes";
-import { Column } from "../ui/column/column";
-import { delay, getRandomArr, swap } from "../../utils/utils";
-import { ElementStates } from "../../types/element-states";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import React, { useEffect, useState } from 'react';
+import { SolutionLayout } from '../ui/solution-layout/solution-layout';
+import { Button } from '../ui/button/button';
+import { RadioInput } from '../ui/radio-input/radio-input';
+import styles from './sorting.module.css';
+import { Direction } from '../../types/direction';
+import { TColumnItem } from '../../types/allTypes';
+import { Column } from '../ui/column/column';
+import { delay, getRandomArr, swap } from '../../utils/utils';
+import { ElementStates } from '../../types/element-states';
+import { SHORT_DELAY_IN_MS } from '../../constants/delays';
 
 export const SortingPage: React.FC = () => {
-  const [sortType, setSortType] = useState("select");
+  const [sortType, setSortType] = useState('select');
   const [direction, setDirection] = useState<Direction | undefined>(undefined);
   const [isLoading, setLoading] = useState(false);
   const [arr, setArr] = useState<TColumnItem[]>([]);
@@ -29,10 +29,10 @@ export const SortingPage: React.FC = () => {
     setDirection(dir);
     resetStyles(arr);
     switch (sortType) {
-      case "select":
+      case 'select':
         selectSort(arr, dir);
         break;
-      case "bubble":
+      case 'bubble':
         bubbleSort(arr, dir);
         break;
       default:
@@ -88,6 +88,9 @@ export const SortingPage: React.FC = () => {
 
   const bubbleSort = async (arr: TColumnItem[], dir: Direction) => {
     setLoading(true);
+    if (arr.length < 1) {
+      return;
+    }
     for (let i = arr.length - 1; i > 0; i--) {
       for (let j = 0; j < i; j++) {
         arr[j + 1].color = ElementStates.Changing;
@@ -128,16 +131,16 @@ export const SortingPage: React.FC = () => {
           <RadioInput
             label="Выбор"
             name=""
-            value={"select"}
+            value={'select'}
             onChange={handleChangeRadio}
-            checked={sortType === "select"}
+            checked={sortType === 'select'}
             disabled={isLoading}
           />
           <RadioInput
             label="Пузырьком"
             value="bubble"
             onChange={handleChangeRadio}
-            checked={sortType === "bubble"}
+            checked={sortType === 'bubble'}
             disabled={isLoading}
           />
         </div>
