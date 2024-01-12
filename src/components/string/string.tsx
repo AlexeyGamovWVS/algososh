@@ -57,7 +57,7 @@ export const StringComponent: React.FC = () => {
           }
           return nextStepNum;
         });
-      }, SHORT_DELAY_IN_MS);
+      }, 3000);
     } else {
       setLoading(false);
     }
