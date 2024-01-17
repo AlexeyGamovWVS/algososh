@@ -58,6 +58,7 @@ export const QueuePage: React.FC = () => {
     setActiveBtn(btnNames.clear);
     setLoading(true);
     queue.clear();
+    setValues({ stringInput: '' });
     setArr([...queue.elements()]);
     setLoading(false);
     setActiveBtn(null);

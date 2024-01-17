@@ -5,7 +5,7 @@ import { Input } from '../ui/input/input';
 import { Button } from '../ui/button/button';
 import { Circle } from '../ui/circle/circle';
 import { useForm } from '../../hooks/useForm';
-import { SHORT_DELAY_IN_MS } from '../../constants/delays';
+// import { SHORT_DELAY_IN_MS } from '../../constants/delays';
 import { getLetterState, getReverseStringsOnEachStep } from './utils';
 
 // const getStringArr = (string: string) => {

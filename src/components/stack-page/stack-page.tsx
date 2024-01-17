@@ -53,6 +53,7 @@ export const StackPage: React.FC = () => {
     setActiveBtn(btnNames.clear);
     setLoading(true);
     stack.clear();
+    setValues({ stringInput: '' });
     setArr([...stack.elements()]);
     setLoading(false);
     setActiveBtn(null);
