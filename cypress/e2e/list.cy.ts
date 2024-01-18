@@ -1,13 +1,6 @@
 import { DELAY_IN_MS } from '../../src/constants/delays';
+import { CIRCLE, CIRCLE_CONTENT, CIRCLE_SMALL, CIRCLE_STYLES } from './utils';
 describe('Проверка связного списка', () => {
-  const CIRCLE = 'div[class*="circle_circle"]';
-  const CIRCLE_SMALL = 'div[class*="circle_small"]';
-  const CIRCLE_CONTENT = 'li[data-cy*="circle"]';
-  const CIRCLE_STYLES = {
-    default: '4px solid rgb(0, 50, 255)',
-    changing: '4px solid rgb(210, 82, 225)',
-    modified: '4px solid rgb(127, 224, 81)',
-  };
   before(() => {
     cy.visit('http://localhost:3000/list');
     cy.contains('Связный список');
@@ -62,7 +55,7 @@ describe('Проверка связного списка', () => {
     cy.get(CIRCLE)
       .should('have.length.gte', 3)
       .and('have.length.lte', 4)
-      .each((item, index) => {
+      .each((item) => {
         cy.wrap(item).should('have.css', 'border', CIRCLE_STYLES.default);
       });
     cy.get(CIRCLE).first().siblings().contains('head');
@@ -74,17 +67,170 @@ describe('Проверка связного списка', () => {
     cy.get('@addHeadBtn').click();
     cy.get(CIRCLE_CONTENT)
       .first()
-      .get(CIRCLE_SMALL)
+      .find(CIRCLE_SMALL)
       .should('have.text', 'r2d2')
       .and('have.css', 'border', CIRCLE_STYLES.changing);
-    //   .should('have.css', CIRCLE_STYLES.changing);
-    // cy.wait(DELAY_IN_MS);
-    // cy.get(CIRCLE).first().should('have.text', )
-    // cy.get(CIRCLE).eq(0).contains('r2d2').should('have.css', CIRCLE_STYLES.modified);
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE)
+      .first()
+      .should('have.text', 'r2d2')
+      .and('have.css', 'border', CIRCLE_STYLES.modified)
+      .siblings()
+      .contains('head');
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE)
+      .first()
+      .should('have.text', 'r2d2')
+      .and('have.css', 'border', CIRCLE_STYLES.default);
   });
-  it('Проверка добавления элемента в tail.', () => {});
-  it('Проверка добавления элемента по индексу.', () => {});
-  it('Проверка удаления элемента из head.', () => {});
-  it('Проверка удаления элемента из tail.', () => {});
-  it('Проверка удаления элемента по индексу.', () => {});
+
+  it('Проверка добавления элемента в tail.', () => {
+    cy.get('@valueInput').type('r3d2');
+    cy.get('@addTailBtn').click();
+    cy.get(CIRCLE_CONTENT)
+      .last()
+      .find(CIRCLE_SMALL)
+      .should('have.text', 'r3d2')
+      .and('have.css', 'border', CIRCLE_STYLES.changing);
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE)
+      .last()
+      .should('have.text', 'r3d2')
+      .and('have.css', 'border', CIRCLE_STYLES.modified)
+      .siblings()
+      .contains('tail');
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE)
+      .last()
+      .should('have.text', 'r3d2')
+      .and('have.css', 'border', CIRCLE_STYLES.default);
+  });
+
+  it('Проверка добавления элемента по индексу.', () => {
+    cy.get('@valueInput').type('rInx');
+    cy.get('@indexInput').type('2');
+    cy.get('@addIndxBtn').click();
+
+    cy.get(CIRCLE_CONTENT)
+      .first()
+      .find(CIRCLE_SMALL)
+      .should('have.text', 'rInx')
+      .and('have.css', 'border', CIRCLE_STYLES.changing);
+    cy.get(CIRCLE_CONTENT)
+      .first()
+      .find(CIRCLE)
+      .last()
+      .should('have.css', 'border', CIRCLE_STYLES.changing);
+
+    cy.wait(DELAY_IN_MS);
+
+    cy.get(CIRCLE_CONTENT)
+      .eq(1)
+      .find(CIRCLE_SMALL)
+      .should('have.text', 'rInx')
+      .and('have.css', 'border', CIRCLE_STYLES.changing);
+    cy.get(CIRCLE_CONTENT)
+      .eq(1)
+      .find(CIRCLE)
+      .last()
+      .should('have.css', 'border', CIRCLE_STYLES.changing);
+
+    cy.wait(DELAY_IN_MS);
+
+    cy.get(CIRCLE_CONTENT)
+      .eq(2)
+      .find(CIRCLE_SMALL)
+      .should('have.text', 'rInx')
+      .and('have.css', 'border', CIRCLE_STYLES.changing);
+    cy.get(CIRCLE_CONTENT)
+      .eq(2)
+      .find(CIRCLE)
+      .last()
+      .should('have.css', 'border', CIRCLE_STYLES.default);
+
+    cy.wait(DELAY_IN_MS);
+
+    cy.get(CIRCLE).eq(2).should('have.css', 'border', CIRCLE_STYLES.modified).contains('rInx');
+
+    cy.wait(DELAY_IN_MS);
+
+    cy.get(CIRCLE).each((item) => {
+      cy.wrap(item).should('have.css', 'border', CIRCLE_STYLES.default);
+    });
+  });
+
+  it('Проверка удаления элемента из head.', () => {
+    cy.get('@rmHeadBtn').click();
+    cy.get(CIRCLE_CONTENT)
+      .first()
+      .find(CIRCLE_SMALL)
+      .should('have.text', 'r2d2')
+      .and('have.css', 'border', CIRCLE_STYLES.changing);
+    cy.get(CIRCLE_CONTENT)
+      .first()
+      .find(CIRCLE)
+      .first()
+      .should('not.have.text', 'r2d2')
+      .and('have.css', 'border', CIRCLE_STYLES.default);
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE).first().should('not.have.text', 'r2d2');
+  });
+
+  it('Проверка удаления элемента из tail.', () => {
+    cy.get('@rmTailBtn').click();
+    cy.get(CIRCLE_CONTENT)
+      .last()
+      .find(CIRCLE_SMALL)
+      .should('have.text', 'r3d2')
+      .and('have.css', 'border', CIRCLE_STYLES.changing);
+    cy.get(CIRCLE_CONTENT)
+      .last()
+      .find(CIRCLE)
+      .first()
+      .should('not.have.text', 'r3d2')
+      .and('have.css', 'border', CIRCLE_STYLES.default);
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE).last().should('not.have.text', 'r3d2');
+  });
+
+  it('Проверка удаления элемента по индексу.', () => {
+    cy.get('@valueInput').type('Star');
+    cy.get('@addHeadBtn').click();
+
+    cy.get('@indexInput').type('2');
+    cy.get('@rmIndxBtn').click();
+
+    cy.get(CIRCLE).each((item, index) => {
+      index === 0
+        ? cy.wrap(item).should('have.css', 'border', CIRCLE_STYLES.changing)
+        : cy.wrap(item).should('have.css', 'border', CIRCLE_STYLES.default);
+    });
+
+    cy.wait(DELAY_IN_MS);
+
+    cy.get(CIRCLE).each((item, index) => {
+      index === 0 || index === 1
+        ? cy.wrap(item).should('have.css', 'border', CIRCLE_STYLES.changing)
+        : cy.wrap(item).should('have.css', 'border', CIRCLE_STYLES.default);
+    });
+
+    cy.wait(DELAY_IN_MS);
+
+    cy.get(CIRCLE_CONTENT)
+      .eq(2)
+      .find(CIRCLE_SMALL)
+      .should('have.css', 'border', CIRCLE_STYLES.changing)
+      .and('have.text', 'rInx');
+    cy.get(CIRCLE_CONTENT)
+      .eq(2)
+      .find(CIRCLE)
+      .first()
+      .should('have.css', 'border', CIRCLE_STYLES.default)
+      .and('not.have.text', 'rInx');
+    cy.wait(DELAY_IN_MS);
+    cy.get(CIRCLE)
+      .eq(2)
+      .should('have.css', 'border', CIRCLE_STYLES.default)
+      .and('not.have.text', 'rInx');
+  });
 });

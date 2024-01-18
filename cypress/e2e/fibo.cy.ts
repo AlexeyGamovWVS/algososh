@@ -1,8 +1,8 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { CIRCLE } from './utils';
 
 describe('Проверка фибоначи', () => {
   const FIB_ARRAY = [0, 1, 1, 2, 3, 5, 8, 13, 21]; //10
-  const CIRCLE = 'div[class*="circle_circle"]';
   before(() => {
     cy.visit('http://localhost:3000/fibonacci');
     cy.contains('Последовательность Фибоначчи');

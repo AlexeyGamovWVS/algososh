@@ -1,12 +1,8 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { CIRCLE, CIRCLE_STYLES } from './utils';
+
 describe('Проверка очереди', () => {
   const queue = ['ava', 'pava', 'r2d2'];
-  const CIRCLE = 'div[class*="circle_circle"]';
-  const CIRCLE_STYLES = {
-    default: '4px solid rgb(0, 50, 255)',
-    changing: '4px solid rgb(210, 82, 225)',
-    modified: '4px solid rgb(127, 224, 81)',
-  };
   before(() => {
     cy.visit('http://localhost:3000/queue');
     cy.contains('Очередь');
@@ -17,8 +13,6 @@ describe('Проверка очереди', () => {
     cy.contains('Удалить').as('delBtn');
     cy.contains('Сбросить').as('resetBtn');
   });
-
-  // Проверьте, что если в инпуте пусто, то кнопка добавления недоступна.
 
   it('Если в инпуте пусто, то кнопка добавления недоступна.', () => {
     cy.get('@addBtn').should('be.disabled');

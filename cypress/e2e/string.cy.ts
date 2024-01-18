@@ -1,12 +1,8 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { CIRCLE, CIRCLE_STYLES } from './utils';
+
 describe('Проверка строки', () => {
   const STRING = 'ROVAAM';
-  const CIRCLE = 'div[class*="circle_circle"]';
-  const CIRCLE_STYLES = {
-    default: '4px solid rgb(0, 50, 255)',
-    changing: '4px solid rgb(210, 82, 225)',
-    modified: '4px solid rgb(127, 224, 81)',
-  };
   before(function () {
     cy.visit('http://localhost:3000/recursion');
     cy.contains('Строка');

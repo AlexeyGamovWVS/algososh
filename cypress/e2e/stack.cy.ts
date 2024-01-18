@@ -1,12 +1,8 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { CIRCLE, CIRCLE_STYLES } from './utils';
+
 describe('Проверка стека', () => {
   const STACK = ['ava', 'pava', 'r2d2'];
-  const CIRCLE = 'div[class*="circle_circle"]';
-  const CIRCLE_STYLES = {
-    default: '4px solid rgb(0, 50, 255)',
-    changing: '4px solid rgb(210, 82, 225)',
-    modified: '4px solid rgb(127, 224, 81)',
-  };
   before(() => {
     cy.visit('http://localhost:3000/stack');
     cy.contains('Стек');
@@ -18,8 +14,6 @@ describe('Проверка стека', () => {
     cy.contains('Сбросить').as('resetBtn');
   });
 
-  // Проверьте, что если в инпуте пусто, то кнопка добавления недоступна.
-
   it('Если в инпуте пусто, то кнопка добавления недоступна.', () => {
     cy.get('@addBtn').should('be.disabled');
     cy.get('input').type('hell');
@@ -30,7 +24,7 @@ describe('Проверка стека', () => {
 
   it('Правильность добавления элемента в стек. Важно убедиться, что цвета элементов меняются и каждый шаг анимации отрабатывает корректно.', () => {
     STACK.forEach((item, index) => {
-      cy.get('input').type(item); //stack1
+      cy.get('input').type(item);
       cy.get('@addBtn').click();
 
       cy.get(CIRCLE)
