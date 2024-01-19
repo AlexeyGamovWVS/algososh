@@ -4,7 +4,7 @@ import { CIRCLE, CIRCLE_STYLES } from './utils';
 describe('Проверка очереди', () => {
   const queue = ['ava', 'pava', 'r2d2'];
   before(() => {
-    cy.visit('http://localhost:3000/queue');
+    cy.visit('queue');
     cy.contains('Очередь');
   });
 

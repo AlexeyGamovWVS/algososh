@@ -57,7 +57,7 @@ export const ListPage: React.FC = () => {
 
     newArr[0].color = ElementStates.Default;
     setArr(newArr);
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     setLoading(false);
     setActiveBtn(null);
   };
@@ -89,7 +89,7 @@ export const ListPage: React.FC = () => {
 
     newArr[list.getSize() - 1].color = ElementStates.Default;
     setArr(newArr);
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     setLoading(false);
     setActiveBtn(null);
   };
@@ -109,7 +109,7 @@ export const ListPage: React.FC = () => {
 
     list.deleteHead();
 
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     setArr([...list.elements()]);
     setLoading(false);
     setActiveBtn(null);
@@ -129,7 +129,7 @@ export const ListPage: React.FC = () => {
 
     list.deleteTail();
 
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     // color
     setArr([...list.elements()]);
     setLoading(false);

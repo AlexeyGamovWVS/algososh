@@ -32,7 +32,7 @@ export const QueuePage: React.FC = () => {
       color: ElementStates.Changing,
     });
     setArr([...queue.elements()]);
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     await delay(SHORT_DELAY_IN_MS);
     queue.elements()[queue.tail - 1]!.color = ElementStates.Default;
     setLoading(false);
@@ -58,7 +58,7 @@ export const QueuePage: React.FC = () => {
     setActiveBtn(btnNames.clear);
     setLoading(true);
     queue.clear();
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     setArr([...queue.elements()]);
     setLoading(false);
     setActiveBtn(null);

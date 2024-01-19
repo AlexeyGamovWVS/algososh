@@ -4,7 +4,7 @@ import { CIRCLE } from './utils';
 describe('Проверка фибоначи', () => {
   const FIB_ARRAY = [0, 1, 1, 2, 3, 5, 8, 13, 21]; //10
   before(() => {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('fibonacci');
     cy.contains('Последовательность Фибоначчи');
   });
 

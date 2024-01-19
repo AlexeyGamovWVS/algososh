@@ -27,7 +27,7 @@ export const StackPage: React.FC = () => {
       color: ElementStates.Changing,
     });
     setArr([...stack.elements()]);
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     await delay(SHORT_DELAY_IN_MS);
     stack.peak()!.color = ElementStates.Default;
     setLoading(false);
@@ -53,7 +53,7 @@ export const StackPage: React.FC = () => {
     setActiveBtn(btnNames.clear);
     setLoading(true);
     stack.clear();
-    setValues({ stringInput: '' });
+    setValues({ ...values, stringInput: '' });
     setArr([...stack.elements()]);
     setLoading(false);
     setActiveBtn(null);

@@ -4,7 +4,7 @@ import { CIRCLE, CIRCLE_STYLES } from './utils';
 describe('Проверка строки', () => {
   const STRING = 'ROVAAM';
   before(function () {
-    cy.visit('http://localhost:3000/recursion');
+    cy.visit('recursion');
     cy.contains('Строка');
   });
 

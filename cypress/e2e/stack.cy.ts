@@ -4,7 +4,7 @@ import { CIRCLE, CIRCLE_STYLES } from './utils';
 describe('Проверка стека', () => {
   const STACK = ['ava', 'pava', 'r2d2'];
   before(() => {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('stack');
     cy.contains('Стек');
   });
 

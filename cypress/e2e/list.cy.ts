@@ -2,7 +2,7 @@ import { DELAY_IN_MS } from '../../src/constants/delays';
 import { CIRCLE, CIRCLE_CONTENT, CIRCLE_SMALL, CIRCLE_STYLES } from './utils';
 describe('Проверка связного списка', () => {
   before(() => {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('list');
     cy.contains('Связный список');
   });
 

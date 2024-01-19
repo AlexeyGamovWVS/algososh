@@ -9,7 +9,7 @@ const PAGES = [
 
 describe('app works correctly with routes', function () {
   beforeEach(function () {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
   });
 
   it('Должна открыться главная', () => {
