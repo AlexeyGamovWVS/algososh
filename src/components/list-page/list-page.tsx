@@ -278,7 +278,9 @@ export const ListPage: React.FC = () => {
           />
           <Button
             text={
-              Number(values.inInput) > arr.length - 1 ? 'Индекс неверный' : 'Добавить по индексу'
+              Number(values.inInput) > arr.length - 1 || Number(values.inInput) < 0
+                ? 'Индекс неверный'
+                : 'Добавить по индексу'
             }
             type="button"
             onClick={handleAddInd}
@@ -286,19 +288,28 @@ export const ListPage: React.FC = () => {
               isLoading ||
               !values.inInput ||
               !values.stringInput ||
-              Number(values.inInput) > list.getSize()
+              Number(values.inInput) > list.getSize() ||
+              (!Number(values.inInput) && Number(values.inInput) !== 0) ||
+              Number(values.inInput) < 0
             }
             isLoader={isLoading && activeBtn === btnNames.addByIdx}
             extraClass={styles.btn_size_m}
           />
           <Button
             text={
-              Number(values.inInput) > arr.length - 1 ? 'Индекс неверный' : 'Удалить по индексу'
+              Number(values.inInput) > arr.length - 1 || Number(values.inInput) < 0
+                ? 'Индекс неверный'
+                : 'Удалить по индексу'
             }
             type="button"
             onClick={handleRemoveInd}
             disabled={
-              isLoading || !values.inInput || !list.head || Number(values.inInput) > arr.length - 1
+              isLoading ||
+              !values.inInput ||
+              !list.head ||
+              Number(values.inInput) > arr.length - 1 ||
+              (!Number(values.inInput) && Number(values.inInput) !== 0) ||
+              Number(values.inInput) < 0
             }
             isLoader={isLoading && activeBtn === btnNames.removeByIdx}
             extraClass={styles.btn_size_m}
@@ -309,7 +320,7 @@ export const ListPage: React.FC = () => {
         {arr?.map((item, index) => {
           return (
             <React.Fragment key={index}>
-              <li data-cy='circle'>
+              <li data-cy="circle">
                 <Circle
                   letter={item.value}
                   index={index}
